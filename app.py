@@ -23,25 +23,18 @@ def format_prompt(history, message, system_prompt):
     B_SYS, E_SYS = "<<SYS>>\n", "\n<</SYS>>\n\n"
 
     prompt = f"{B_INST} {B_SYS}{system_prompt}{E_SYS} "
-
     for user_msg, asst_msg in history:
         user_msg = str(user_msg).strip()
         asst_msg = str(asst_msg).strip()
-
         prompt += f"{user_msg} {E_INST} {asst_msg} </s><s> {B_INST} "
 
     message = str(message).strip()
     prompt += f"{message} {E_INST} "
-
     return prompt
 
 
 def build_generator(
-    model_name,
-    auth_token,
-    temperature=0.6,
-    top_p=0.9,
-    max_gen_len=4096,
+    model_name, auth_token, temperature=0.6, top_p=0.9, max_gen_len=4096
 ):
     SYSTEM_PROMPT = """\
     You are a helpful, respectful and honest assistant. Always answer as helpfully as possible, while being safe.  Your answers should not include any harmful, unethical, racist, sexist, toxic, dangerous, or illegal content. Please ensure that your responses are socially unbiased and positive in nature.
@@ -70,7 +63,7 @@ def build_generator(
         stream_handler = StreamHandler()
 
         t = Thread(target=generate_process, args=(inputs, stream_handler))
-        t.start()
+        t.start()  # Running in background
 
         # The first item in the queue contains the content, so we can ignore it
         stream_handler.queue.get(block=True)
@@ -81,7 +74,6 @@ def build_generator(
             item = stream_handler.queue.get(block=True)
             if item["type"] == "termination":
                 break
-
             token_id = item["content"][0].item()
             token_ids.append(token_id)
             yield tokenizer.decode(token_ids, skip_special_tokens=True)
@@ -99,9 +91,8 @@ if __name__ == "__main__":
     respond = build_generator(model_name=model_name, auth_token=auth_token)
 
     print("Starting server...")
-    title = model_name.split("/")[-1].replace("-", " ") + ' local'
+    title = model_name.split("/")[-1].replace("-", " ") + " local"
     desc = f"This Space demonstrates [{model_name}](https://huggingface.co/{model_name}) by Meta."
     css = """.toast-wrap { display: none !important } """
     ci = gr.ChatInterface(respond, title=title.title(), description=desc, css=css)
-    ci.queue()
-    ci.launch(server_name="localhost", server_port=7860)
+    ci.queue().launch(server_name="localhost", server_port=7860)
