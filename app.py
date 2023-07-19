@@ -99,9 +99,9 @@ if __name__ == "__main__":
     respond = build_generator(model_name=model_name, auth_token=auth_token)
 
     print("Starting server...")
-    title = model_name.split("/")[-1].replace("-", " ").title()
+    title = model_name.split("/")[-1].replace("-", " ") + ' local'
     desc = f"This Space demonstrates [{model_name}](https://huggingface.co/{model_name}) by Meta."
     css = """.toast-wrap { display: none !important } """
-    ci = gr.ChatInterface(respond, title=title, description=desc, css=css)
+    ci = gr.ChatInterface(respond, title=title.title(), description=desc, css=css)
     ci.queue()
-    ci.launch()
+    ci.launch(server_name="localhost", server_port=7860)
