@@ -34,3 +34,7 @@ python app.py
 ## Details
 
 You can modify the content of `app.py` for more control. By default, it uses 4-bit inference (see [blog post](https://huggingface.co/blog/4bit-transformers-bitsandbytes). It is a very simple app (~100 lines), so it should be straight forward to understand. The streaming part relies on threading and queue, but you probably won't need to worry about that unless you need to change the streaming behavior.
+
+## Acknowledgement
+
+The app extends [@yvrjsharma's original app](https://huggingface.co/spaces/ysharma/Explore_llamav2_with_TGI/blob/main/app.py) with the addition of `transformers`, thread and queue.
