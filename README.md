@@ -1,9 +1,11 @@
 # LLaMA-2 Local Chat UI
 
-![An image showing the user interface of the app](assets/demo.png)
-
 This app lets you run LLaMA v2 locally via Gradio and Huggingface Transformers. Other demos require the [Huggingface inference server](https://huggingface.co/spaces/ysharma/Explore_llamav2_with_TGI) or require [replicate](https://replicate.com/a16z-infra/llama13b-v2-chat), which are hosted solutions accessible through a web API. This demo instead runs the models directly on your device (assuming you meet the requirements).
 
+![An image showing the user interface of the app](assets/demo.png)
+
+| [Kaggle Demo](https://www.kaggle.com/code/xhlulu/llama-2-demo-7b-chat-hf) |
+| -- |
 
 ## Requirements
 
